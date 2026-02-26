@@ -23,19 +23,13 @@ public class LoginTest extends BaseTest {
         password = "123456";
 
         System.out.println("Регистрируем пользователя: " + email);
-
-        // Регистрируем пользователя перед тестами входа
         MainPage mainPage = new MainPage(driver);
         LoginPage loginPage = mainPage.clickPersonalAccount();
         RegisterPage registerPage = loginPage.clickRegisterLink();
-
-        // Ждем загрузки страницы регистрации
         try { Thread.sleep(1000); } catch (InterruptedException e) {}
 
-        // Регистрируемся
         loginPage = registerPage.register("Тестовый", email, password);
 
-        // Ждем загрузки страницы логина
         try { Thread.sleep(2000); } catch (InterruptedException e) {}
 
         System.out.println("Регистрация завершена");
@@ -54,7 +48,6 @@ public class LoginTest extends BaseTest {
         mainPage.clickLoginButtonMain()
                 .login(email, password);
 
-        // Ждем загрузки главной страницы
         try { Thread.sleep(2000); } catch (InterruptedException e) {}
 
         assertTrue(driver.getPageSource().contains("Оформить заказ"), "Вход не выполнен");
@@ -71,7 +64,6 @@ public class LoginTest extends BaseTest {
         mainPage.clickPersonalAccount()
                 .login(email, password);
 
-        // Ждем загрузки главной страницы
         try { Thread.sleep(2000); } catch (InterruptedException e) {}
 
         assertTrue(driver.getPageSource().contains("Оформить заказ"), "Вход не выполнен");
@@ -90,7 +82,6 @@ public class LoginTest extends BaseTest {
                 .clickLoginLink()
                 .login(email, password);
 
-        // Ждем загрузки главной страницы
         try { Thread.sleep(2000); } catch (InterruptedException e) {}
 
         assertTrue(driver.getPageSource().contains("Оформить заказ"), "Вход не выполнен");
@@ -109,7 +100,6 @@ public class LoginTest extends BaseTest {
                 .clickLoginLink()
                 .login(email, password);
 
-        // Ждем загрузки главной страницы
         try { Thread.sleep(2000); } catch (InterruptedException e) {}
 
         assertTrue(driver.getPageSource().contains("Оформить заказ"), "Вход не выполнен");

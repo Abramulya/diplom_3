@@ -37,8 +37,6 @@ public class LoginPage {
     @Step("Клик на кнопку 'Войти'")
     public MainPage clickLoginButton() {
         wait.until(ExpectedConditions.elementToBeClickable(loginButton)).click();
-
-        // Ждем загрузки главной страницы
         wait.until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath(".//button[text()='Оформить заказ']")));
 

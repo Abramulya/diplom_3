@@ -16,8 +16,6 @@ public class ConstructorTest extends BaseTest {
     @DisplayName("Переход к разделу 'Булки' в конструкторе")
     public void testBunsSection() {
         MainPage mainPage = new MainPage(driver);
-
-        // Сначала переходим в другой раздел, чтобы точно проверить переключение
         mainPage.clickSaucesTab();
         mainPage.clickBunsTab();
 

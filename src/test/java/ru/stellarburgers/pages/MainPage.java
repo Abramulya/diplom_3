@@ -10,7 +10,6 @@ import java.time.Duration;
 public class MainPage {
     private final WebDriver driver;
 
-    // Локаторы
     private final By loginButtonMain = By.xpath(".//button[text()='Войти в аккаунт']");
     private final By personalAccountButton = By.xpath(".//p[text()='Личный Кабинет']");
     private final By constructorButton = By.xpath(".//p[text()='Конструктор']");

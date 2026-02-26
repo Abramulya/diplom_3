@@ -21,25 +21,13 @@ public class ProfileNavigationTest extends BaseTest {
     public void loginBeforeTest() {
         email = generateUniqueEmail();
         password = "123456";
-
-        // Регистрируемся
         MainPage mainPage = new MainPage(driver);
         LoginPage loginPage = mainPage.clickPersonalAccount();
         RegisterPage registerPage = loginPage.clickRegisterLink();
-
-        // Ждем загрузки страницы регистрации
         try { Thread.sleep(1000); } catch (InterruptedException e) {}
-
-        // Регистрируем и сразу логинимся
         loginPage = registerPage.register("Тестовый", email, password);
-
-        // Ждем загрузки страницы логина
         try { Thread.sleep(1000); } catch (InterruptedException e) {}
-
-        // Логинимся
         mainPage = loginPage.login(email, password);
-
-        // Ждем загрузки главной
         try { Thread.sleep(1000); } catch (InterruptedException e) {}
     }
 
@@ -48,10 +36,7 @@ public class ProfileNavigationTest extends BaseTest {
     public void testGoToProfile() {
         MainPage mainPage = new MainPage(driver);
         mainPage.clickPersonalAccount();
-
-        // Ждем загрузки профиля
         try { Thread.sleep(2000); } catch (InterruptedException e) {}
-
         ProfilePage profilePage = new ProfilePage(driver);
         assertTrue(driver.getPageSource().contains("Выход"), "Переход в личный кабинет не выполнен");
     }

@@ -44,8 +44,6 @@ public class RegisterPage {
     @Step("Клик на кнопку 'Зарегистрироваться'")
     public LoginPage clickRegisterButton() {
         wait.until(ExpectedConditions.elementToBeClickable(registerButton)).click();
-
-        // Ждем загрузки страницы логина (появление кнопки "Войти")
         wait.until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath(".//button[text()='Войти']")));
 

@@ -17,17 +17,14 @@ public class BaseTest {
     @BeforeEach
     @Step("Настройка браузера и запуск драйвера")
     public void setUp() {
-        // Получаем браузер из системной переменной, по умолчанию - chrome
         String browser = System.getProperty("browser", "chrome");
 
         if ("yandex".equals(browser)) {
-            // Для Яндекс.Браузера используем ChromeOptions, но указываем путь к Yandex
-            WebDriverManager.chromedriver().setup(); // Яндекс использует тот же драйвер, что и Chrome
+            WebDriverManager.chromedriver().setup();
             ChromeOptions options = new ChromeOptions();
             options.setBinary("C:/Users/UserName/AppData/Local/Yandex/YandexBrowser/Application/browser.exe");
             driver = new ChromeDriver(options);
         } else {
-            // Для Google Chrome
             WebDriverManager.chromedriver().setup();
             driver = new ChromeDriver();
         }

@@ -22,10 +22,7 @@ public class ProfilePage {
 
     @Step("Клик на кнопку 'Выход' с ожиданием")
     public LoginPage clickLogoutButton() {
-        // Ждем, пока кнопка станет видимой и кликабельной
         wait.until(ExpectedConditions.elementToBeClickable(logoutButton)).click();
-
-        // Ждем, когда страница логина загрузится (появится кнопка "Войти")
         wait.until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath(".//button[text()='Войти']")));
 

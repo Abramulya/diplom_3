@@ -21,24 +21,15 @@ public class LogoutTest extends BaseTest {
     public void loginBeforeTest() {
         email = generateUniqueEmail();
         password = "123456";
-
         System.out.println("Регистрируем пользователя: " + email);
-
-        // Регистрация
         MainPage mainPage = new MainPage(driver);
         LoginPage loginPage = mainPage.clickPersonalAccount();
         RegisterPage registerPage = loginPage.clickRegisterLink();
-
-        waitForSeconds(1); // Ждем загрузки страницы регистрации
-
+        waitForSeconds(1);
         loginPage = registerPage.register("Тестовый", email, password);
-
-        waitForSeconds(2); // Ждем загрузки страницы логина
-
+        waitForSeconds(2);
         mainPage = loginPage.login(email, password);
-
-        waitForSeconds(2); // Ждем загрузки главной страницы
-
+        waitForSeconds(2);
         System.out.println("Пользователь залогинен");
     }
 
@@ -47,27 +38,18 @@ public class LogoutTest extends BaseTest {
     @Description("Проверка выхода из аккаунта через кнопку Выйти в ЛК")
     public void testLogout() {
         System.out.println("Тест: выход из аккаунта");
-
-        // Переходим в личный кабинет
         MainPage mainPage = new MainPage(driver);
         mainPage.clickPersonalAccount();
-
-        waitForSeconds(2); // Ждем загрузки личного кабинета
-
-        // Нажимаем кнопку выхода
+        waitForSeconds(2);
         ProfilePage profilePage = new ProfilePage(driver);
         profilePage.clickLogoutButton();
-
-        waitForSeconds(2); // Ждем перехода на страницу логина
-
-        // Проверяем, что мы на странице входа (есть кнопка "Войти")
+        waitForSeconds(2);
         boolean isLoginButtonVisible = driver.getPageSource().contains("Войти");
         assertTrue(isLoginButtonVisible, "Выход не выполнен - кнопка 'Войти' не найдена");
 
         System.out.println("Тест пройден");
     }
 
-    // Вспомогательный метод для ожидания
     private void waitForSeconds(int seconds) {
         try {
             Thread.sleep(seconds * 1000L);
