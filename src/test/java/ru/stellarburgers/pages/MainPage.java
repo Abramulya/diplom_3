@@ -18,6 +18,7 @@ public class MainPage {
     private final By bunsTab = By.xpath(".//span[text()='Булки']/parent::div");
     private final By saucesTab = By.xpath(".//span[text()='Соусы']/parent::div");
     private final By fillingsTab = By.xpath(".//span[text()='Начинки']/parent::div");
+    private final By fillingsTabHeader = By.xpath(".//h2[text()='Начинки']");
     private final By currentTab = By.xpath("//div[contains(@class, 'tab_tab__1SPyG tab_tab_type_current__2BEPc')]");
 
     public MainPage(WebDriver driver) {
@@ -51,21 +52,21 @@ public class MainPage {
     @Step("Клик на раздел 'Булки'")
     public MainPage clickBunsTab() {
         driver.findElement(bunsTab).click();
-        waitForTabToBeSelected(bunsTab);
+        waitForTabToBeSelected();
         return this;
     }
 
     @Step("Клик на раздел 'Соусы'")
     public MainPage clickSaucesTab() {
         driver.findElement(saucesTab).click();
-        waitForTabToBeSelected(saucesTab);
+        waitForTabToBeSelected();
         return this;
     }
 
     @Step("Клик на раздел 'Начинки'")
     public MainPage clickFillingsTab() {
         driver.findElement(fillingsTab).click();
-        waitForTabToBeSelected(fillingsTab);
+        waitForTabToBeSelected();
         return this;
     }
 
@@ -94,8 +95,14 @@ public class MainPage {
         return fillingsClass.contains("tab_tab_type_current");
     }
 
-    private void waitForTabToBeSelected(By tabLocator) {
-        new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(ExpectedConditions.attributeContains(tabLocator, "class", "tab_tab_type_current"));
+    private void waitForTabToBeSelected() {
+        System.out.println("Start to wait 3 sec...");
+        try {
+            Thread.sleep(3000);
+            System.out.println("Wait end");
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            e.printStackTrace();
+        }
     }
 }

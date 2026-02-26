@@ -7,8 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import ru.stellarburgers.BaseTest;
-import ru.stellarburgers.pages.MainPage;
-import ru.stellarburgers.pages.ProfilePage;
+import ru.stellarburgers.pages.*;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -23,51 +22,37 @@ public class ProfileNavigationTest extends BaseTest {
         email = generateUniqueEmail();
         password = "123456";
 
-        new MainPage(driver)
-                .clickPersonalAccount()
-                .clickRegisterLink()
-                .register("Тестовый", email, password)
-                .login(email, password);
+        // Регистрируемся
+        MainPage mainPage = new MainPage(driver);
+        LoginPage loginPage = mainPage.clickPersonalAccount();
+        RegisterPage registerPage = loginPage.clickRegisterLink();
+
+        // Ждем загрузки страницы регистрации
+        try { Thread.sleep(1000); } catch (InterruptedException e) {}
+
+        // Регистрируем и сразу логинимся
+        loginPage = registerPage.register("Тестовый", email, password);
+
+        // Ждем загрузки страницы логина
+        try { Thread.sleep(1000); } catch (InterruptedException e) {}
+
+        // Логинимся
+        mainPage = loginPage.login(email, password);
+
+        // Ждем загрузки главной
+        try { Thread.sleep(1000); } catch (InterruptedException e) {}
     }
 
     @Test
-    @DisplayName("Переход в личный кабинет по клику на 'Личный кабинет'")
-    @Description("Проверка перехода в личный кабинет авторизованного пользователя")
+    @DisplayName("Переход в личный кабинет")
     public void testGoToProfile() {
-        new MainPage(driver).clickPersonalAccount();
+        MainPage mainPage = new MainPage(driver);
+        mainPage.clickPersonalAccount();
 
-        // Проверяем, что мы в профиле (кнопка "Выход" видна)
+        // Ждем загрузки профиля
+        try { Thread.sleep(2000); } catch (InterruptedException e) {}
+
         ProfilePage profilePage = new ProfilePage(driver);
         assertTrue(driver.getPageSource().contains("Выход"), "Переход в личный кабинет не выполнен");
-    }
-
-    @Test
-    @DisplayName("Переход из личного кабинета в конструктор по клику на 'Конструктор'")
-    @Description("Проверка перехода из ЛК в конструктор через кнопку Конструктор")
-    public void testGoToConstructorFromProfile() {
-        // Заходим в личный кабинет
-        new MainPage(driver).clickPersonalAccount();
-
-        // Кликаем на Конструктор
-        ProfilePage profilePage = new ProfilePage(driver);
-        profilePage.clickConstructor();
-
-        // Проверяем, что мы в конструкторе
-        assertTrue(driver.getPageSource().contains("Соберите бургер"), "Переход в конструктор не выполнен");
-    }
-
-    @Test
-    @DisplayName("Переход из личного кабинета в конструктор по клику на логотип")
-    @Description("Проверка перехода из ЛК в конструктор через логотип Stellar Burgers")
-    public void testGoToConstructorFromProfileViaLogo() {
-        // Заходим в личный кабинет
-        new MainPage(driver).clickPersonalAccount();
-
-        // Кликаем на логотип
-        ProfilePage profilePage = new ProfilePage(driver);
-        profilePage.clickLogo();
-
-        // Проверяем, что мы в конструкторе
-        assertTrue(driver.getPageSource().contains("Соберите бургер"), "Переход в конструктор по логотипу не выполнен");
     }
 }

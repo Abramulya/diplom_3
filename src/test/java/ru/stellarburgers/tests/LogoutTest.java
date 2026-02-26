@@ -7,8 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import ru.stellarburgers.BaseTest;
-import ru.stellarburgers.pages.MainPage;
-import ru.stellarburgers.pages.ProfilePage;
+import ru.stellarburgers.pages.*;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -23,25 +22,57 @@ public class LogoutTest extends BaseTest {
         email = generateUniqueEmail();
         password = "123456";
 
-        new MainPage(driver)
-                .clickPersonalAccount()
-                .clickRegisterLink()
-                .register("Тестовый", email, password)
-                .login(email, password);
+        System.out.println("Регистрируем пользователя: " + email);
+
+        // Регистрация
+        MainPage mainPage = new MainPage(driver);
+        LoginPage loginPage = mainPage.clickPersonalAccount();
+        RegisterPage registerPage = loginPage.clickRegisterLink();
+
+        waitForSeconds(1); // Ждем загрузки страницы регистрации
+
+        loginPage = registerPage.register("Тестовый", email, password);
+
+        waitForSeconds(2); // Ждем загрузки страницы логина
+
+        mainPage = loginPage.login(email, password);
+
+        waitForSeconds(2); // Ждем загрузки главной страницы
+
+        System.out.println("Пользователь залогинен");
     }
 
     @Test
     @DisplayName("Выход из аккаунта по кнопке 'Выйти' в личном кабинете")
     @Description("Проверка выхода из аккаунта через кнопку Выйти в ЛК")
     public void testLogout() {
-        // Заходим в личный кабинет
-        new MainPage(driver).clickPersonalAccount();
+        System.out.println("Тест: выход из аккаунта");
 
-        // Выходим из аккаунта
+        // Переходим в личный кабинет
+        MainPage mainPage = new MainPage(driver);
+        mainPage.clickPersonalAccount();
+
+        waitForSeconds(2); // Ждем загрузки личного кабинета
+
+        // Нажимаем кнопку выхода
         ProfilePage profilePage = new ProfilePage(driver);
         profilePage.clickLogoutButton();
 
-        // Проверяем, что вышли (появилась кнопка "Войти")
-        assertTrue(driver.getPageSource().contains("Войти"), "Выход не выполнен");
+        waitForSeconds(2); // Ждем перехода на страницу логина
+
+        // Проверяем, что мы на странице входа (есть кнопка "Войти")
+        boolean isLoginButtonVisible = driver.getPageSource().contains("Войти");
+        assertTrue(isLoginButtonVisible, "Выход не выполнен - кнопка 'Войти' не найдена");
+
+        System.out.println("Тест пройден");
+    }
+
+    // Вспомогательный метод для ожидания
+    private void waitForSeconds(int seconds) {
+        try {
+            Thread.sleep(seconds * 1000L);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 }
