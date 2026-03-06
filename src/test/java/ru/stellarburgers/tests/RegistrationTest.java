@@ -23,33 +23,17 @@ public class RegistrationTest extends BaseTest {
         String email = generateUniqueEmail();
         String password = "123456";
 
-        System.out.println("Тест: успешная регистрация");
-        System.out.println("Email: " + email);
-
         MainPage mainPage = new MainPage(driver);
         LoginPage loginPage = mainPage.clickPersonalAccount();
-        waitForSeconds(1);
 
         RegisterPage registerPage = loginPage.clickRegisterLink();
-        waitForSeconds(1);
-
-        System.out.println("Регистрируем пользователя...");
         loginPage = registerPage.register(name, email, password);
-        waitForSeconds(2);
-
         boolean isLoginPageDisplayed = loginPage.isDisplayed();
-        System.out.println("Страница логина отображается: " + isLoginPageDisplayed);
         assertTrue(isLoginPageDisplayed, "Страница входа не открылась после регистрации");
 
-        System.out.println("Пробуем залогиниться...");
         mainPage = loginPage.login(email, password);
-        waitForSeconds(2);
-
         boolean isOrderButtonVisible = driver.getPageSource().contains("Оформить заказ");
-        System.out.println("Кнопка 'Оформить заказ' видна: " + isOrderButtonVisible);
         assertTrue(isOrderButtonVisible, "Не удалось залогиниться созданным пользователем");
-
-        System.out.println("Тест пройден успешно!");
     }
 
     @Test
@@ -60,32 +44,12 @@ public class RegistrationTest extends BaseTest {
         String email = generateUniqueEmail();
         String shortPassword = "12345";
 
-        System.out.println("Тест: регистрация с коротким паролем");
-        System.out.println("Email: " + email);
-
         MainPage mainPage = new MainPage(driver);
         LoginPage loginPage = mainPage.clickPersonalAccount();
-        waitForSeconds(1);
-
         RegisterPage registerPage = loginPage.clickRegisterLink();
-        waitForSeconds(1);
-
-        System.out.println("Пробуем зарегистрироваться с паролем: " + shortPassword);
         registerPage.registerWithInvalidPassword(name, email, shortPassword);
-        waitForSeconds(1);
 
         boolean isErrorDisplayed = registerPage.isPasswordErrorDisplayed();
-        System.out.println("Ошибка отображается: " + isErrorDisplayed);
         assertTrue(isErrorDisplayed, "Ошибка о некорректном пароле не появилась");
-
-        System.out.println("Тест пройден успешно!");
-    }
-
-    private void waitForSeconds(int seconds) {
-        try {
-            Thread.sleep(seconds * 1000L);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
     }
 }

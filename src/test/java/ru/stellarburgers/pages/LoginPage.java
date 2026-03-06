@@ -30,7 +30,7 @@ public class LoginPage {
 
     @Step("Заполнить пароль")
     public LoginPage setPassword(String password) {
-        driver.findElement(passwordField).sendKeys(password);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(passwordField)).sendKeys(password);
         return this;
     }
 

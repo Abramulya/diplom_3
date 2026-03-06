@@ -1,6 +1,5 @@
 package ru.stellarburgers.tests;
 
-import io.qameta.allure.Description;
 import io.qameta.allure.junit5.AllureJunit5;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -24,11 +23,8 @@ public class ProfileNavigationTest extends BaseTest {
         MainPage mainPage = new MainPage(driver);
         LoginPage loginPage = mainPage.clickPersonalAccount();
         RegisterPage registerPage = loginPage.clickRegisterLink();
-        try { Thread.sleep(1000); } catch (InterruptedException e) {}
-        loginPage = registerPage.register("Тестовый", email, password);
-        try { Thread.sleep(1000); } catch (InterruptedException e) {}
-        mainPage = loginPage.login(email, password);
-        try { Thread.sleep(1000); } catch (InterruptedException e) {}
+        loginPage = registerPage.register("Тестовый", email, password); //используется при регистрации
+        mainPage = loginPage.login(email, password); //используется при авторизации
     }
 
     @Test
@@ -36,8 +32,6 @@ public class ProfileNavigationTest extends BaseTest {
     public void testGoToProfile() {
         MainPage mainPage = new MainPage(driver);
         mainPage.clickPersonalAccount();
-        try { Thread.sleep(2000); } catch (InterruptedException e) {}
-        ProfilePage profilePage = new ProfilePage(driver);
         assertTrue(driver.getPageSource().contains("Выход"), "Переход в личный кабинет не выполнен");
     }
 }

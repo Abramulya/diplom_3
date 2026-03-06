@@ -17,26 +17,23 @@ public class ConstructorTest extends BaseTest {
     public void testBunsSection() {
         MainPage mainPage = new MainPage(driver);
         mainPage.clickSaucesTab();
-        mainPage.clickBunsTab();
-
-        assertTrue(mainPage.isBunsSectionSelected(), "Раздел 'Булки' не выбран");
+        boolean isSelected = mainPage.clickBunsTab();
+        assertTrue(isSelected, "The 'Buns' section is not selected");
     }
 
     @Test
     @DisplayName("Переход к разделу 'Соусы' в конструкторе")
     public void testSaucesSection() {
         MainPage mainPage = new MainPage(driver);
-        mainPage.clickSaucesTab();
-
-        assertTrue(mainPage.isSaucesSectionSelected(), "Раздел 'Соусы' не выбран");
+        boolean isSelected = mainPage.clickSaucesTab();
+        assertTrue(isSelected, "The 'Sauces' section is not selected");
     }
 
     @Test
     @DisplayName("Переход к разделу 'Начинки' в конструкторе")
     public void testFillingsSection() {
         MainPage mainPage = new MainPage(driver);
-        mainPage.clickFillingsTab();
-
-        assertTrue(mainPage.isFillingsSectionSelected(), "Раздел 'Начинки' не выбран");
+        boolean isSelected = mainPage.clickFillingsTab();
+        assertTrue(isSelected, "The 'Fillings' section is not selected");
     }
 }

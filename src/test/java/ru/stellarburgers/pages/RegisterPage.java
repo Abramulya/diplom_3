@@ -31,13 +31,13 @@ public class RegisterPage {
 
     @Step("Заполнить email: {email}")
     public RegisterPage setEmail(String email) {
-        driver.findElement(emailField).sendKeys(email);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(emailField)).sendKeys(email);
         return this;
     }
 
     @Step("Заполнить пароль")
     public RegisterPage setPassword(String password) {
-        driver.findElement(passwordField).sendKeys(password);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(passwordField)).sendKeys(password);
         return this;
     }
 

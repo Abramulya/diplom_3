@@ -5,10 +5,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
 import java.time.Duration;
 
 public class MainPage {
     private final WebDriver driver;
+    private final WebDriverWait wait;
 
     private final By loginButtonMain = By.xpath(".//button[text()='Войти в аккаунт']");
     private final By personalAccountButton = By.xpath(".//p[text()='Личный Кабинет']");
@@ -17,11 +19,11 @@ public class MainPage {
     private final By bunsTab = By.xpath(".//span[text()='Булки']/parent::div");
     private final By saucesTab = By.xpath(".//span[text()='Соусы']/parent::div");
     private final By fillingsTab = By.xpath(".//span[text()='Начинки']/parent::div");
-    private final By fillingsTabHeader = By.xpath(".//h2[text()='Начинки']");
     private final By currentTab = By.xpath("//div[contains(@class, 'tab_tab__1SPyG tab_tab_type_current__2BEPc')]");
 
     public MainPage(WebDriver driver) {
         this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     @Step("Клик на кнопку 'Войти в аккаунт' на главной")
@@ -32,7 +34,9 @@ public class MainPage {
 
     @Step("Клик на 'Личный кабинет'")
     public LoginPage clickPersonalAccount() {
-        driver.findElement(personalAccountButton).click();
+        wait.until(ExpectedConditions.elementToBeClickable(personalAccountButton)).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath(".//button[text()='Сохранить' or text()='Войти']")));
         return new LoginPage(driver);
     }
 
@@ -49,59 +53,44 @@ public class MainPage {
     }
 
     @Step("Клик на раздел 'Булки'")
-    public MainPage clickBunsTab() {
-        driver.findElement(bunsTab).click();
-        waitForTabToBeSelected();
-        return this;
+    public boolean clickBunsTab() {
+        wait.until(ExpectedConditions.elementToBeClickable(bunsTab)).click();
+        try {
+            wait.until(driver -> {
+                String classAttr = driver.findElement(bunsTab).getAttribute("class");
+                return classAttr != null && classAttr.contains("tab_tab_type_current");
+            });
+            return true; // таб активировался успешно
+        } catch (Exception e) {
+            return false; // таб не активировался за отведенное время
+        }
     }
 
     @Step("Клик на раздел 'Соусы'")
-    public MainPage clickSaucesTab() {
-        driver.findElement(saucesTab).click();
-        waitForTabToBeSelected();
-        return this;
+    public boolean clickSaucesTab() {
+        wait.until(ExpectedConditions.elementToBeClickable(saucesTab)).click();
+        try {
+            wait.until(driver -> {
+                String classAttr = driver.findElement(saucesTab).getAttribute("class");
+                return classAttr != null && classAttr.contains("tab_tab_type_current");
+            });
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Step("Клик на раздел 'Начинки'")
-    public MainPage clickFillingsTab() {
-        driver.findElement(fillingsTab).click();
-        waitForTabToBeSelected();
-        return this;
-    }
-
-    @Step("Проверить, что выбранный таб - текущий")
-    public boolean isTabSelected(By tabLocator) {
-        String tabClass = driver.findElement(tabLocator).getAttribute("class");
-        return tabClass.contains("tab_tab_type_current");
-    }
-
-    // Добавим методы для проверки выбранного раздела
-    @Step("Проверить, что выбран раздел 'Булки'")
-    public boolean isBunsSectionSelected() {
-        String bunsClass = driver.findElement(bunsTab).getAttribute("class");
-        return bunsClass.contains("tab_tab_type_current");
-    }
-
-    @Step("Проверить, что выбран раздел 'Соусы'")
-    public boolean isSaucesSectionSelected() {
-        String saucesClass = driver.findElement(saucesTab).getAttribute("class");
-        return saucesClass.contains("tab_tab_type_current");
-    }
-
-    @Step("Проверить, что выбран раздел 'Начинки'")
-    public boolean isFillingsSectionSelected() {
-        String fillingsClass = driver.findElement(fillingsTab).getAttribute("class");
-        return fillingsClass.contains("tab_tab_type_current");
-    }
-
-    private void waitForTabToBeSelected() {
-        System.out.println("Start to wait 3 sec...");
+    public boolean clickFillingsTab() {
+        wait.until(ExpectedConditions.elementToBeClickable(fillingsTab)).click();
         try {
-            Thread.sleep(3000);
-            System.out.println("Wait end");
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            e.printStackTrace();
+            wait.until(driver -> {
+                String classAttr = driver.findElement(fillingsTab).getAttribute("class");
+                return classAttr != null && classAttr.contains("tab_tab_type_current");
+            });
+            return true;
+        } catch (Exception e) {
+            return false;
         }
     }
 }
