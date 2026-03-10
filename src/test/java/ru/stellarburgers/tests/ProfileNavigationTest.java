@@ -23,8 +23,8 @@ public class ProfileNavigationTest extends BaseTest {
         MainPage mainPage = new MainPage(driver);
         LoginPage loginPage = mainPage.clickPersonalAccount();
         RegisterPage registerPage = loginPage.clickRegisterLink();
-        loginPage = registerPage.register("Тестовый", email, password); //используется при регистрации
-        mainPage = loginPage.login(email, password); //используется при авторизации
+        registerPage.register("Тестовый", email, password); //используется при регистрации
+        loginPage.login(email, password); //используется при авторизации
     }
 
     @Test

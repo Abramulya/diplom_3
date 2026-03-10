@@ -24,7 +24,7 @@ public class LoginTest extends BaseTest {
         MainPage mainPage = new MainPage(driver);
         LoginPage loginPage = mainPage.clickPersonalAccount();
         RegisterPage registerPage = loginPage.clickRegisterLink();
-        loginPage = registerPage.register("Тестовый", email, password); //используется при регистрации
+        registerPage.register("Тестовый", email, password); //используется при регистрации
     }
 
     @Test
